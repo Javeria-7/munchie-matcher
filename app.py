@@ -154,7 +154,6 @@ with col1:
     budget = st.slider("Wallet Status (1: Uni Broke, 5: Premium Flex):", min_value=1, max_value=5, value=3)
     time_avail = st.selectbox("Got ample time?", ["Moderate (quick meal)", "Very little (grab-and-go)", "High (Ample Time / Chill & Eat)"])
     cravings = st.selectbox("What are you lowkey craving?", ["No specific craving", "Healthy Food", "Sweet / Chocolate", "Savory / Spicy / Desi", "Fast Food / Fried"])
-    # Time of Day Option Added Smoothly
     time_period = st.selectbox("Current Time Period Tracker:", ["Early Morning (Breakfast)", "Mid-Morning (Lecture Break)", "Afternoon (Lunch Block)", "Evening (Tea/Snack Loop)", "Night (Late Study / Munchies)"], index=["Early Morning (Breakfast)", "Mid-Morning (Lecture Break)", "Afternoon (Lunch Block)", "Evening (Tea/Snack Loop)", "Night (Late Study / Munchies)"].index(detected_time))
 
 with col2:
@@ -181,7 +180,7 @@ with col_g2:
 st.markdown("<br>", unsafe_allow_html=True)
 
 # ==========================================
-# 📋 RE-STRUCTURED DATA MATRICES (COMPLETE PREVIOUS + NEW UPDATES)
+# 📋 RE-STRUCTURED DATA MATRICES
 # ==========================================
 FOOD_DATABASE = [
     # Oral Fixations
@@ -239,13 +238,13 @@ FOOD_DATABASE = [
     {"name": "Spiced Gol Gappay Platter with Sour Water", "type": "snack", "clean": False, "cost": 1, "is_gym_approved": False, "speed": "instant", "demographic_veto": False, "tags": ["gol-gappay", "desi", "street-food"], "is_cheat_allowed": False},
     {"name": "Mayonnaise Loaded Russian Salad Bowl", "type": "snack", "clean": False, "cost": 1, "is_gym_approved": False, "speed": "instant", "demographic_veto": False, "tags": ["salad", "russian"], "is_cheat_allowed": False},
     
-    # Newly Requested Uni/Bakery Arrays
+    # Uni/Bakery Arrays
     {"name": "Plate of Golden Spicy Pakoray", "type": "snack", "clean": False, "cost": 1, "is_gym_approved": False, "speed": "fast", "demographic_veto": False, "tags": ["pakoray", "desi", "fried"], "is_cheat_allowed": False},
     {"name": "Crispy Potato Cutlets (2 Pcs Set)", "type": "snack", "clean": False, "cost": 1, "is_gym_approved": False, "speed": "fast", "demographic_veto": False, "tags": ["cutlets", "desi"], "is_cheat_allowed": False},
     {"name": "Golden Bakery Spring Rolls (3 Pcs Basket)", "type": "snack", "clean": False, "cost": 1, "is_gym_approved": False, "speed": "fast", "demographic_veto": False, "tags": ["rolls", "bakery", "fried"], "is_cheat_allowed": False},
     {"name": "Authentic Desi Halwa Puri Nasir Plate", "type": "full_meal", "clean": False, "cost": 1, "is_gym_approved": False, "speed": "fast", "demographic_veto": False, "tags": ["halwa-puri", "breakfast", "desi"], "is_cheat_allowed": False},
     {"name": "Traditional Rich Naan Paye Combo", "type": "full_meal", "clean": False, "cost": 3, "is_gym_approved": False, "speed": "wait", "demographic_veto": False, "tags": ["paye", "desi", "breakfast"], "is_cheat_allowed": False},
-    {"name": "Spicy Lahori Nehari with Khameeri Naan", "type": "full_meal", "clean": False, "cost": 3, "is_gym_approved": False, "speed": "wait", "demographic_veto": False, "tags": ["nehari", "desi"], "is_cheat_allowed": False},
+    {"name": "Spicy Lahori Nehari with Khameeri Roti", "type": "full_meal", "clean": False, "cost": 3, "is_gym_approved": False, "speed": "wait", "demographic_veto": False, "tags": ["nehari", "desi"], "is_cheat_allowed": False},
     {"name": "Deep Dish Cheese Burst Pizza", "type": "full_meal", "clean": False, "cost": 4, "is_gym_approved": False, "speed": "wait", "demographic_veto": False, "tags": ["pizza", "fried"], "is_cheat_allowed": False},
     {"name": "Hot Toasted Bakery Chicken Patties (2 Pcs)", "type": "snack", "clean": False, "cost": 1, "is_gym_approved": False, "speed": "instant", "demographic_veto": False, "tags": ["patties", "bakery"], "is_cheat_allowed": False},
     {"name": "Steaming Hot Chicken Momos Basket with Chutney", "type": "snack", "clean": False, "cost": 2, "is_gym_approved": False, "speed": "wait", "demographic_veto": False, "tags": ["momos", "chinese"], "is_cheat_allowed": False},
@@ -280,6 +279,7 @@ DRINK_DATABASE = [
     {"name": "Chilled Packaged Fruit Juice Box", "cost": 1, "is_gym_approved": False, "type": "drink", "sugar": "real"},
     {"name": "Milo Nutrient Liquid Pack", "cost": 1, "is_gym_approved": False, "type": "drink", "sugar": "real"},
     {"name": "Nescafe Instant Coffee Pack Set", "cost": 1, "is_gym_approved": False, "type": "drink", "sugar": "real"},
+    {"name": "Traditional Karak Chai and Glazed Donut Combo", "cost": 2, "is_gym_approved": False, "type": "drink", "sugar": "real"},
 
     # Confectionery Treats Array & Ice Creams
     {"name": "Fudgy Chocolate Brownie Slice with Warm Core", "cost": 1, "is_gym_approved": False, "type": "dessert", "sugar": "real"},
@@ -366,7 +366,6 @@ if execute_main:
                 # Biometric Gym Isolation Adjustments with Cheat Options
                 if fitness_mode:
                     if allow_cheat:
-                        # Gym Cheat day activates high-protein oily things
                         if not item["is_cheat_allowed"]: continue
                     else:
                         if not item["is_gym_approved"]: continue
@@ -423,10 +422,10 @@ if execute_main:
                 
                 d_score = 100
                 
-                # Time awareness for drinks (Tea/Coffee boots)
+                # Time awareness for drinks
                 if "Morning" in time_period and ("Coffee" in d["name"] or "Tea" in d["name"]):
                     d_score += 250
-                if "Tea" in time_period and "Chai" in d["name"]:
+                if "Tea" in time_period and ("Chai" in d["name"] or "Tea" in d["name"]):
                     d_score += 300
                 
                 if fitness_mode and not allow_cheat and not d["is_gym_approved"]: 
@@ -450,7 +449,6 @@ if execute_main:
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("### 🏆 Your Curated Match")
     
-    # Conditional Layout Customization based on state
     if show_food and show_drink:
         st.markdown(f"""
             <div class="munch-card">
@@ -483,6 +481,8 @@ if execute_main:
     with col_v2:
         sugar_tag = "Zero Sugar Setup" if is_sugar_free else "Regular Sugar Setup"
         st.markdown(f"""<div class='stat-bubble'><span style='color:#64748b; font-size:11px; font-weight:700; text-transform:uppercase;'>Sugar Tone Filter</span><br><h2 style='color:#ff007a; margin:5px 0; font-weight:800; font-size:18px; font-family: "Space Grotesk", sans-serif;'>{sugar_tag}</h2></div>""", unsafe_allow_html=True)
+        
+    st.markdown("<br>", unsafe_allow_html=True)
         
     st.markdown("<br>", unsafe_allow_html=True)
     if engine_logs:
